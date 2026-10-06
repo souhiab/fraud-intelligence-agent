@@ -1,0 +1,98 @@
+{
+  "dataset": {
+    "customers": 10000,
+    "transactions": 100000,
+    "fraud_cases": 584,
+    "fraud_rate": 0.00584,
+    "start": "2025-01-01 00:05:37",
+    "end": "2025-12-31 23:58:51"
+  },
+  "splits": {
+    "train": {
+      "rows": 66805,
+      "start": "2025-01-01 00:05:37",
+      "end": "2025-08-31 23:56:27",
+      "fraud_rate": 0.006137265174762368
+    },
+    "validation": {
+      "rows": 16627,
+      "start": "2025-09-01 00:19:39",
+      "end": "2025-10-31 23:58:36",
+      "fraud_rate": 0.005052023816683707
+    },
+    "test": {
+      "rows": 16568,
+      "start": "2025-11-01 00:00:22",
+      "end": "2025-12-31 23:58:51",
+      "fraud_rate": 0.005432158377595364
+    }
+  },
+  "metrics_at_0_50": {
+    "Logistic Regression": {
+      "precision": 0.019318181818181818,
+      "recall": 0.5666666666666667,
+      "f1": 0.03736263736263736,
+      "roc_auc": 0.7953115939097247,
+      "pr_auc": 0.08622768094047993,
+      "tn": 13889,
+      "fp": 2589,
+      "fn": 39,
+      "tp": 51
+    },
+    "HistGradientBoosting": {
+      "precision": 0.02897693672383205,
+      "recall": 0.5444444444444444,
+      "f1": 0.055025266704098824,
+      "roc_auc": 0.8009463796846975,
+      "pr_auc": 0.09424191110729438,
+      "tn": 14836,
+      "fp": 1642,
+      "fn": 41,
+      "tp": 49
+    }
+  },
+  "selected_threshold": 0.5,
+  "selected_threshold_test_metrics": {
+    "precision": 0.02897693672383205,
+    "recall": 0.5444444444444444,
+    "f1": 0.055025266704098824,
+    "roc_auc": 0.8009463796846975,
+    "pr_auc": 0.09424191110729438,
+    "tn": 14836,
+    "fp": 1642,
+    "fn": 41,
+    "tp": 49
+  },
+  "test_alerts": 1691,
+  "alerts_per_1000": 102.06422018348624,
+  "top_permutation_features": {
+    "new_device_indicator": 0.12803139416910708,
+    "amount_vs_customer_average": 0.08521624403387888,
+    "is_international": 0.040603008654872846,
+    "transaction_hour": 0.032046374524482946,
+    "merchant_category": 0.004468485920759389,
+    "transaction_channel": 0.0012666860589553668,
+    "day_of_week": 0.00030957207541879955,
+    "historical_international_rate": 3.7337968041617486e-05,
+    "transactions_previous_1h": 0.0,
+    "high_amount_indicator": 0.0
+  },
+  "top_positive_logistic_coefficients": {
+    "numeric__unusual_hour_indicator": 0.5178665673767031,
+    "numeric__new_device_indicator": 0.3826786674308595,
+    "categorical__merchant_category_cash_withdrawal": 0.3270565180505295,
+    "numeric__amount_vs_customer_average": 0.277392442555453,
+    "numeric__transactions_previous_1h": 0.2771253877091455,
+    "numeric__is_international": 0.18154721803421733,
+    "numeric__country_mismatch_indicator": 0.18154721803421733
+  },
+  "top_negative_logistic_coefficients": {
+    "categorical__merchant_category_grocery": -0.4540097413883121,
+    "categorical__merchant_category_digital_goods": -0.37977611542508316,
+    "categorical__transaction_channel_atm": -0.34359567152972087,
+    "numeric__std_previous_amount": -0.2690891603334629,
+    "categorical__customer_segment_standard": -0.24503471946187091,
+    "categorical__transaction_channel_pos": -0.17141907993418135,
+    "categorical__merchant_category_fuel": -0.14386280287985545
+  }
+}
