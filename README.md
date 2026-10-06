@@ -60,28 +60,41 @@ Random splitting can expose models to unrealistic future behavior. Here, SQL his
 
 ### Actual Test Metrics
 
-Classification metrics below use a `0.50` threshold; ranking metrics use model probabilities.
+These model-comparison classification metrics use a reference `0.50` threshold; ranking metrics use model probabilities. The operational threshold is selected separately on validation data below.
 
 | Model | Precision | Recall | F1 | ROC-AUC | PR-AUC |
 |---|---:|---:|---:|---:|---:|
 | Logistic Regression | 1.93% | 56.67% | 3.74% | 0.795 | 0.086 |
 | HistGradientBoosting | **2.90%** | 54.44% | **5.50%** | **0.801** | **0.094** |
 
-PR-AUC matters most because a model predicting “not fraud” for every row would be more than 99% accurate but useless. The stronger model's PR-AUC is about 16× the 0.543% test prevalence, while remaining far from perfect.
+PR-AUC matters most because a model predicting “not fraud” for every row would be more than 99% accurate but useless. Overall prevalence of 0.584% implies a random PR-AUC baseline near **0.00584**; the exact test-period baseline is 0.00543. The stronger model's PR-AUC of 0.094 is about 16× the overall baseline and 17× the test baseline. That is useful ranking lift, not high absolute precision, so alert capacity still matters.
 
 ![Precision–Recall curve](assets/precision_recall_curve.png)
 
 ### Threshold Tradeoff
 
-The demonstration objective is **at most 120 validation alerts per 1,000 transactions**, then maximum recall within that capacity. It selects `0.50`; this is an example business operating point, not a universal optimum.
+**Business assumption:** analysts can review at most approximately **50 alerts per 1,000 transactions**. Using validation predictions only, select the threshold with maximum recall under that ceiling, breaking recall ties by higher precision.
+
+Nearest achievable validation operating points:
+
+| Capacity region | Threshold | Alerts / 1,000 | Precision | Recall | F1 |
+|---:|---:|---:|---:|---:|---:|
+| ~10 | 0.833 | 10.0 | 9.64% | 19.05% | 12.80% |
+| ~20 | 0.798 | 20.0 | 7.21% | 28.57% | 11.51% |
+| ~50 | 0.670 | 50.0 | 4.45% | 44.05% | 8.09% |
+| ~100 | 0.519 | 100.0 | 2.95% | 58.33% | 5.61% |
+| **Selected ≤50** | **0.690** | **46.3** | **4.81%** | **44.05%** | **8.68%** |
+
+The selected `0.690` threshold achieves the same validation recall as the nearest 50-alert point with fewer alerts and higher precision. It is selected because of the capacity rule—not because `0.50` is a default. The threshold is then frozen and evaluated once on test data.
 
 On the future test period:
 
-- **Precision:** 2.90%
-- **Recall:** 54.44%
-- **Alerts:** 1,691 of 16,568 transactions (**102.1 per 1,000**)
+- **Precision:** 6.17%
+- **Recall:** 45.56%
+- **F1:** 10.88%
+- **Alerts:** 664 of 16,568 transactions (**40.1 per 1,000**)
 
-Lower thresholds catch more fraud but increase false positives and analyst workload. Higher thresholds do the reverse.
+Compared with `0.50`, the capacity-constrained threshold substantially reduces review volume and improves precision, but recall falls. This is an explicit operational tradeoff, not a claim that the threshold is universally optimal.
 
 ![Threshold tradeoff](assets/threshold_tradeoff.png)
 
@@ -106,7 +119,7 @@ The architecture is agentic through tool selection, retrieved evidence, state, a
 {
   "transaction_id": "TX_074381",
   "fraud_probability": 0.9005,
-  "selected_threshold": 0.5,
+  "selected_threshold": 0.6898,
   "risk_level": "HIGH",
   "signals": [
     "Amount $478.93 is 3.4x the customer's prior average.",
