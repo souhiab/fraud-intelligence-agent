@@ -1,0 +1,472 @@
+{
+  "name": "Fraud Intelligence Agent",
+  "short": "FRAUD",
+  "accent": "#6B4F9B",
+  "tint": "#F0ECF7",
+  "figures": [
+    {
+      "index": 1,
+      "level": "overview",
+      "slug": "01_overview",
+      "title": "From a suspicious transaction to an informed review",
+      "subtitle": "The model prioritizes risk; the evidence assistant prepares the case; the analyst decides.",
+      "cards": [
+        {
+          "rect": [
+            5,
+            21,
+            19,
+            16
+          ],
+          "eyebrow": "01 / SCORE",
+          "title": "Transaction risk",
+          "body": "Use current details\nand prior behavior\nto estimate risk",
+          "title_size": 14
+        },
+        {
+          "rect": [
+            28.5,
+            21,
+            19,
+            16
+          ],
+          "eyebrow": "02 / PRIORITIZE",
+          "title": "Capacity-based\nalert",
+          "body": "Threshold ≈0.690\nValidation rule: at most\n50 alerts per 1,000",
+          "title_size": 14,
+          "body_size": 10.7
+        },
+        {
+          "rect": [
+            52,
+            21,
+            19,
+            16
+          ],
+          "eyebrow": "03 / INVESTIGATE",
+          "title": "Evidence + policy",
+          "body": "Fetch transaction history\nRetrieve policy sections\nPrepare cited summary",
+          "title_size": 14,
+          "body_size": 10.7
+        },
+        {
+          "rect": [
+            75.5,
+            21,
+            19.5,
+            16
+          ],
+          "eyebrow": "04 / DECIDE",
+          "title": "Human analyst",
+          "body": "Review the evidence\nand authorize any\nfinancial action",
+          "dark": true,
+          "title_size": 14
+        }
+      ],
+      "edges": [
+        {
+          "points": [
+            [
+              24,
+              29
+            ],
+            [
+              28.5,
+              29
+            ]
+          ]
+        },
+        {
+          "points": [
+            [
+              47.5,
+              29
+            ],
+            [
+              52,
+              29
+            ]
+          ]
+        },
+        {
+          "points": [
+            [
+              71,
+              29
+            ],
+            [
+              75.5,
+              29
+            ]
+          ]
+        }
+      ],
+      "evidence": [
+        [
+          "0.584% fraud",
+          "100,000 synthetic transactions"
+        ],
+        [
+          "40.1 alerts / 1,000",
+          "Future test at frozen threshold"
+        ],
+        [
+          "Human authority",
+          "No automatic account blocking"
+        ]
+      ],
+      "footer": "Synthetic customers, transactions and policies. Evidence supports review; it does not prove fraud.",
+      "panels": [
+        {
+          "rect": [
+            5,
+            41,
+            90,
+            6.3
+          ],
+          "fill": "#F2F4F5"
+        }
+      ],
+      "labels": [
+        {
+          "x": 7,
+          "y": 42.6,
+          "text": "Assistant output: signals + policy citations + CLOSE / REVIEW / ESCALATE recommendation",
+          "size": 13
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "level": "implementation",
+      "slug": "02_implementation",
+      "title": "A reproducible scoring-to-investigation contract",
+      "subtitle": "Notebook 1 creates scored test records. Notebook 2 investigates a transaction ID using four tools.",
+      "cards": [
+        {
+          "rect": [
+            5,
+            17,
+            27,
+            13
+          ],
+          "eyebrow": "CSV + SQL",
+          "title": "Historical features",
+          "body": "100,000 transactions\nBackward-looking SQL windows"
+        },
+        {
+          "rect": [
+            36.5,
+            17,
+            27,
+            13
+          ],
+          "eyebrow": "NOTEBOOK 01",
+          "title": "Train, validate, score",
+          "body": "Logistic baseline + histogram GB\nCapacity threshold on validation",
+          "body_size": 10.5
+        },
+        {
+          "rect": [
+            68,
+            17,
+            27,
+            13
+          ],
+          "eyebrow": "DATA / SAMPLE",
+          "title": "Saved scoring contract",
+          "body": "scored_test_transactions.csv\n+ model_metadata.json",
+          "dark": true,
+          "body_size": 10.3
+        },
+        {
+          "rect": [
+            5,
+            35,
+            27,
+            13
+          ],
+          "eyebrow": "TOOL INPUT",
+          "title": "Transaction ID",
+          "body": "Lookup alert details + score\nFetch strictly earlier history"
+        },
+        {
+          "rect": [
+            36.5,
+            35,
+            27,
+            13
+          ],
+          "eyebrow": "SRC / FRAUD_TOOLS.PY",
+          "title": "Policy retrieval",
+          "body": "Split Markdown into sections\nTF-IDF + cosine similarity\nReturn top 3 policy sections",
+          "title_size": 15
+        },
+        {
+          "rect": [
+            68,
+            35,
+            27,
+            13
+          ],
+          "eyebrow": "SRC / INVESTIGATION_AGENT.PY",
+          "title": "Deterministic case summary",
+          "body": "Signals + policy citations\nRecommendation for human review",
+          "title_size": 13.2,
+          "body_size": 10.4
+        }
+      ],
+      "edges": [
+        {
+          "points": [
+            [
+              32,
+              23.5
+            ],
+            [
+              36.5,
+              23.5
+            ]
+          ]
+        },
+        {
+          "points": [
+            [
+              63.5,
+              23.5
+            ],
+            [
+              68,
+              23.5
+            ]
+          ]
+        },
+        {
+          "points": [
+            [
+              81.5,
+              30
+            ],
+            [
+              81.5,
+              32.5
+            ],
+            [
+              18.5,
+              32.5
+            ],
+            [
+              18.5,
+              35
+            ]
+          ]
+        },
+        {
+          "points": [
+            [
+              32,
+              41.5
+            ],
+            [
+              36.5,
+              41.5
+            ]
+          ]
+        },
+        {
+          "points": [
+            [
+              63.5,
+              41.5
+            ],
+            [
+              68,
+              41.5
+            ]
+          ]
+        }
+      ],
+      "evidence": [
+        [
+          "01 → 02",
+          "Scoring notebook before investigation"
+        ],
+        [
+          "Four explicit tools",
+          "Transaction, history, policy, risk"
+        ],
+        [
+          "No LLM required",
+          "Fixed sequence + deterministic synthesis"
+        ]
+      ],
+      "footer": "Sources: sql/fraud_features.sql; src/fraud_tools.py; src/investigation_agent.py; notebooks/01 and 02."
+    },
+    {
+      "index": 3,
+      "level": "technical",
+      "slug": "03_technical",
+      "title": "Constrain alerts and ground every investigation",
+      "subtitle": "Two distinct controls: temporal risk evaluation and an auditable evidence workflow.",
+      "cards": [
+        {
+          "rect": [
+            5,
+            17,
+            27,
+            13
+          ],
+          "eyebrow": "TRAIN / JAN–AUG 2025",
+          "title": "Fit risk models",
+          "body": "66,805 transactions\nHistory windows: 1 PRECEDING"
+        },
+        {
+          "rect": [
+            36.5,
+            17,
+            27,
+            13
+          ],
+          "eyebrow": "VALIDATE / SEP–OCT 2025",
+          "title": "Choose threshold",
+          "body": "Maximize recall at ≤50 alerts/1k\nBreak recall ties by precision\nFreeze threshold ≈0.690",
+          "body_size": 10.7
+        },
+        {
+          "rect": [
+            68,
+            17,
+            27,
+            13
+          ],
+          "eyebrow": "TEST / NOV–DEC 2025",
+          "title": "Report future performance",
+          "body": "16,568 transactions · 664 alerts\nPrecision 6.17% · Recall 45.56%",
+          "dark": true,
+          "body_size": 10.7
+        },
+        {
+          "rect": [
+            5,
+            35,
+            27,
+            13
+          ],
+          "eyebrow": "TOOL SEQUENCE / 1–2",
+          "title": "Retrieve alert + history",
+          "body": "get_transaction()\nget_customer_history()\nHistory strictly before alert",
+          "body_size": 10.7
+        },
+        {
+          "rect": [
+            36.5,
+            35,
+            27,
+            13
+          ],
+          "eyebrow": "TOOL SEQUENCE / 3–4",
+          "title": "Retrieve policy + risk",
+          "body": "search_fraud_policy(top_k=3)\nget_risk_score()\nTrue fraud label is excluded",
+          "body_size": 10.5
+        },
+        {
+          "rect": [
+            68,
+            35,
+            27,
+            13
+          ],
+          "eyebrow": "RULE-BASED SYNTHESIS",
+          "title": "Recommend review",
+          "body": "Score + signal-count rules\nCLOSE / REVIEW / ESCALATE\nHigh-impact actions stay human",
+          "body_size": 10.6
+        }
+      ],
+      "edges": [
+        {
+          "points": [
+            [
+              32,
+              23.5
+            ],
+            [
+              36.5,
+              23.5
+            ]
+          ]
+        },
+        {
+          "points": [
+            [
+              63.5,
+              23.5
+            ],
+            [
+              68,
+              23.5
+            ]
+          ]
+        },
+        {
+          "points": [
+            [
+              81.5,
+              30
+            ],
+            [
+              81.5,
+              32.5
+            ],
+            [
+              18.5,
+              32.5
+            ],
+            [
+              18.5,
+              35
+            ]
+          ]
+        },
+        {
+          "points": [
+            [
+              32,
+              41.5
+            ],
+            [
+              36.5,
+              41.5
+            ]
+          ]
+        },
+        {
+          "points": [
+            [
+              63.5,
+              41.5
+            ],
+            [
+              68,
+              41.5
+            ]
+          ]
+        }
+      ],
+      "evidence": [
+        [
+          "0.094 test PR-AUC",
+          "Risk ranking; precision remains modest"
+        ],
+        [
+          "46.3 validation alerts / 1k",
+          "At the selected capacity threshold"
+        ],
+        [
+          "Evidence + citations",
+          "Grounded synthesis, no LLM in demo"
+        ]
+      ],
+      "footer": "Sources: data/sample/model_metadata.json; sql/fraud_features.sql; src/investigation_agent.py."
+    }
+  ]
+}
